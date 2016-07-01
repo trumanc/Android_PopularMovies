@@ -25,7 +25,7 @@ import java.util.Arrays;
  */
 public class BrowseMoviesFragment extends Fragment {
     /******************* MEMBER VARIABLES *******************/
-    private ArrayAdapter<String> mMovieListAdapter;
+    private MovieArrayAdapter mMovieListAdapter;
 
 
     /****************** API REQUEST CONSTANTS ***************/
@@ -36,6 +36,7 @@ public class BrowseMoviesFragment extends Fragment {
     // Response constants
     final static String TMDB_RESULTS_ARRAY_NAME = "results";
     final static String TMDB_RESULTS_TITLE_NAME = "title";
+    final static String TMDB_RESULTS_POSTER_PATH_NAME = "poster_path";
 
 
 
@@ -46,7 +47,7 @@ public class BrowseMoviesFragment extends Fragment {
     public BrowseMoviesFragment() {
     }
 
-    ArrayList<String> getMovies(String sortBy) {
+    ArrayList<Movie> getMovies(String sortBy) {
 
         Uri apiReq = new Uri.Builder().encodedPath(TMDB_API_BASE)
                 .appendPath(sortBy)
@@ -64,7 +65,7 @@ public class BrowseMoviesFragment extends Fragment {
             JSONObject root = new JSONObject(raw_data);
             JSONArray results = root.getJSONArray(TMDB_RESULTS_ARRAY_NAME);
 
-            ArrayList<String> list = new ArrayList<String>();
+            ArrayList<Movie> list = new ArrayList<Movie>();
 
             int len = results.length();
             for (int index = 0; index < len; index++) {
@@ -79,9 +80,11 @@ public class BrowseMoviesFragment extends Fragment {
         }
     }
 
-    private static String extractEntry(JSONObject entry) {
-        String result = entry.optString(TMDB_RESULTS_TITLE_NAME, "<NOT FOUND>");
-        return result;
+    private static Movie extractEntry(JSONObject entry) {
+        Movie movie = new Movie();
+        movie.setTitle(entry.optString(TMDB_RESULTS_TITLE_NAME, "<NOT FOUND>"));
+        movie.setPosterPath(entry.optString(TMDB_RESULTS_POSTER_PATH_NAME, "<NOT FOUND>"));
+        return movie;
     }
 
     @Override
@@ -97,16 +100,16 @@ public class BrowseMoviesFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_browse, container, false);
 
         GridView grid = (GridView) rootView.findViewById(R.id.movie_grid);
-        mMovieListAdapter = new ArrayAdapter<String>(getContext(), R.layout.browse_entry, new ArrayList<String>());
+        mMovieListAdapter = new MovieArrayAdapter(getContext(), new ArrayList<Movie>());
         grid.setAdapter(mMovieListAdapter);
 
         return rootView;
     }
 
-    class DownloadMovieInfoTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    class DownloadMovieInfoTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
         @Override
-        protected ArrayList<String> doInBackground(Void... voids) {
+        protected ArrayList<Movie> doInBackground(Void... voids) {
             // TODO: Make this a setting with two options: popular and top_rated
             String sortBy = "popular";
 
@@ -115,13 +118,13 @@ public class BrowseMoviesFragment extends Fragment {
 
 
         @Override
-        protected void onPostExecute(ArrayList<String> strings) {
+        protected void onPostExecute(ArrayList<Movie> movies) {
 
-            Log.d("ON_POST_EXECUTE", strings.toString());
+            Log.d("ON_POST_EXECUTE", movies.toString());
             mMovieListAdapter.clear();
-            mMovieListAdapter.addAll(strings);
+            mMovieListAdapter.addAll(movies);
 
-            super.onPostExecute(strings);
+            super.onPostExecute(movies);
         }
     }
 }
