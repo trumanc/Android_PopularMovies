@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+
+    <!-- Strings related to Settings -->
+
+    <string name="pref_title_sort_by">Sort movies by:</string>
+    <string name="pref_sort_by_key">sort_by</string>
+
+    <string name="tmdb_sort_by_popular_label">Popular</string>
+    <string name="tmdb_sort_by_top_rated_label">Top-rated</string>
+    <string-array name="pref_sort_by_list_titles">
+        <item>@string/tmdb_sort_by_popular_label</item>
+        <item>@string/tmdb_sort_by_top_rated_label</item>
+    </string-array>
+
+    <string name="tmdb_sort_by_popular_value" translatable="false">popular</string>
+    <string name="tmdb_sort_by_top_rated_value" translatable="false">top_rated</string>
+    <string-array name="pref_sort_by_list_values">
+        <item>@string/tmdb_sort_by_popular_value</item>
+        <item>@string/tmdb_sort_by_top_rated_value</item>
+    </string-array>
+
 </resources>

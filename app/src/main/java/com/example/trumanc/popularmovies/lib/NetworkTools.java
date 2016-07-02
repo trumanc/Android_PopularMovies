@@ -37,12 +37,8 @@ public class NetworkTools {
             conn.setDoInput(true);
             conn.connect();
 
-            Log.d(LOG_TAG, "In downloadUrl(url=" + request.toString() + "), Response code: "
-                    + conn.getResponseCode());
 
             String result = readStreamIntoString(conn.getInputStream());
-            Log.d(LOG_TAG, "In downloadUrl(url=\" + request.toString() + \"), Response : "
-                    + result);
             // result may be null if readStream experienced an error.
             return result;
 

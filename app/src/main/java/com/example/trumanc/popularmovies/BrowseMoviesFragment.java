@@ -3,6 +3,7 @@ package com.example.trumanc.popularmovies;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.prefs.Preferences;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -126,8 +128,8 @@ public class BrowseMoviesFragment extends Fragment {
 
         @Override
         protected ArrayList<Movie> doInBackground(Void... voids) {
-            // TODO: Make this a setting with two options: popular and top_rated
-            String sortBy = "popular";
+            String sortBy = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                    .getString(getString(R.string.pref_sort_by_key), null);
 
             return getMovies(sortBy);
         }
@@ -136,7 +138,6 @@ public class BrowseMoviesFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> movies) {
 
-            Log.d("ON_POST_EXECUTE", movies.toString());
             mMovieListAdapter.clear();
             mMovieListAdapter.addAll(movies);
 
