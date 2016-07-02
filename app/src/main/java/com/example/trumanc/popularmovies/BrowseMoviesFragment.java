@@ -8,8 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.trumanc.popularmovies.lib.NetworkTools;
 
@@ -103,6 +104,14 @@ public class BrowseMoviesFragment extends Fragment {
         mMovieListAdapter = new MovieArrayAdapter(getContext(), new ArrayList<Movie>());
         grid.setAdapter(mMovieListAdapter);
 
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Toast.makeText(getContext(),
+                        mMovieListAdapter.getItem(position).getTitle(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
         return rootView;
     }
 
