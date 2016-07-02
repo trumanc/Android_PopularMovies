@@ -9,9 +9,40 @@ import java.io.Serializable;
  * Created by truman on 7/1/16.
  */
 public class Movie implements Serializable {
+    /* Member variables used when displaying a movie */
+
+    public static final String INTENT_EXTRA_NAME = "movie_extra";
 
     private String title;
     private String posterPath;
+    private String releaseDate;
+    private double rating;
+    private String overview;
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
 
 
     public String getTitle() {

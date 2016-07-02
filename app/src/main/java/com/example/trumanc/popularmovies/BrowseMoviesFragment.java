@@ -1,5 +1,6 @@
 package com.example.trumanc.popularmovies;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -38,7 +39,9 @@ public class BrowseMoviesFragment extends Fragment {
     final static String TMDB_RESULTS_ARRAY_NAME = "results";
     final static String TMDB_RESULTS_TITLE_NAME = "title";
     final static String TMDB_RESULTS_POSTER_PATH_NAME = "poster_path";
-
+    final static String TMDB_RESULTS_OVERVIEW_NAME = "overview";
+    final static String TMDB_RESULTS_RELEASE_DATE_NAME = "release_date";
+    final static String TMDB_RESULTS_RATING_NAME = "vote_average";
 
 
 
@@ -85,6 +88,9 @@ public class BrowseMoviesFragment extends Fragment {
         Movie movie = new Movie();
         movie.setTitle(entry.optString(TMDB_RESULTS_TITLE_NAME, "<NOT FOUND>"));
         movie.setPosterPath(entry.optString(TMDB_RESULTS_POSTER_PATH_NAME, "<NOT FOUND>"));
+        movie.setOverview(entry.optString(TMDB_RESULTS_OVERVIEW_NAME, "<NOT FOUND>"));
+        movie.setReleaseDate(entry.optString(TMDB_RESULTS_RELEASE_DATE_NAME, "<NOT FOUND>"));
+        movie.setRating(entry.optDouble(TMDB_RESULTS_RATING_NAME, -1.0));
         return movie;
     }
 
@@ -107,9 +113,10 @@ public class BrowseMoviesFragment extends Fragment {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getContext(),
-                        mMovieListAdapter.getItem(position).getTitle(),
-                        Toast.LENGTH_SHORT).show();
+                Intent detailIntent = new Intent(getContext(), DetailActivity.class);
+                detailIntent.putExtra(Movie.INTENT_EXTRA_NAME, mMovieListAdapter.getItem(position));
+
+                startActivity(detailIntent);
             }
         });
         return rootView;
